@@ -2,7 +2,7 @@
 name = "{{ cookiecutter.project_slug }}"
 version = "0.1.0"
 description = "Proyecto MLOps con Cookiecutter y Poetry"
-authors = ["{{ cookiecutter.author }}"]
+authors = ["{{ cookiecutter.author_name }}"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
