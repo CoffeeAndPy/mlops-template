@@ -32,11 +32,5 @@
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 3. Install the required packages:
-    ```bash
-   pip install -r requirements.txt
-   ```
-4. Run the main script to start the project:
-   ```bash
-    python src/main.py
-    ```
+
 

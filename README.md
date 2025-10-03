@@ -12,5 +12,5 @@ pip install cookiecutter
 Then, you can create a new project using this template by running:
 
 ```bash
-cookiecutter https://github.com/CoffeeAndPy/your-template-repo.git
+cookiecutter gh:CoffeeAndPy/mlops-template
 ```
