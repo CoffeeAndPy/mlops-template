@@ -7,7 +7,6 @@ license = "{{ cookiecutter.license if cookiecutter.license != 'Not open source' 
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 keywords = ["mlops", "machine learning", "data science"]
-requires-python = ">=3.10,<4.0"
 
 [project.dependencies]
 python = "^3.10"
