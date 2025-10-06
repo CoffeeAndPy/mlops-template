@@ -1,7 +1,8 @@
 {
     "project_name": "ML Project",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "author_name": "Edgar Mesa Santana",
+    "author_name": "CoffeeAndPy",
+    "author_email": "coffeeandpy@example.com",
     "project_short_description": "A short description of the project",
     "ml_experiment_tracker": ["mlflow", "none"],
     "use_poetry": ["y", "n"],

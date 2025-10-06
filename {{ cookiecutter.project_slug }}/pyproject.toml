@@ -2,7 +2,12 @@
 name = "{{ cookiecutter.project_slug }}"
 version = "0.1.0"
 description = "Proyecto MLOps con Cookiecutter y Poetry"
-authors = ["{{ cookiecutter.author_name }}"]
+authors = [
+    { 
+    name = "{{ cookiecutter.author_name }}", 
+    email = "{{ cookiecutter.author_email }}" 
+    }
+]
 license = "{{ cookiecutter.license if cookiecutter.license != 'Not open source' else '' }}"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
