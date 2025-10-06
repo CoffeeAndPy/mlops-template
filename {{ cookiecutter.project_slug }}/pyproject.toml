@@ -28,11 +28,9 @@ dvc = {optional = true, version = "^3.51"}
 {% endif %}
 
 
-[tool.poetry.extras]
-dev = [
-    "pytest>=8.3",
-    "flake8>=6.1",
-    ]
+[tool.poetry.group.dev.dependencies]
+    pytest = {version = "^8.3", extras={"all"}},
+    flake8 = {version = "^6.1", extras={"all"}}
 
 [build-system]
 requires = ["poetry-core"]
