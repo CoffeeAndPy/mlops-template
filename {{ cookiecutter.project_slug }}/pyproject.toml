@@ -14,7 +14,7 @@ authors = [
   { name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" }
 ]
 
-[project.dependencies]
+[tool.poetry.dependencies]
 numpy = "^1.26"
 pandas = "^2.2"
 scikit-learn = "^1.5"
@@ -28,7 +28,7 @@ dvc = {optional = true, version = "^3.51"}
 {% endif %}
 
 
-[project.optional-dependencies]
+[tool.poetry.extras]
 dev = [
     "pytest>=8.3",
     "flake8>=6.1",
