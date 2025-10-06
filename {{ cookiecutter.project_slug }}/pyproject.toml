@@ -10,9 +10,9 @@ keywords = ["mlops", "machine learning", "data science"]
 license = "{{ cookiecutter.license }}"
 {% endif %}
 
-[project.authors]
-name = "{{ cookiecutter.author_name }}"
-email = "{{ cookiecutter.author_email }}"
+authors = [
+  { name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" }
+]
 
 [project.dependencies]
 numpy = "^1.26"
