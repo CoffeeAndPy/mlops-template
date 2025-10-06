@@ -5,6 +5,9 @@ description = "Proyecto MLOps con Cookiecutter y Poetry"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 keywords = ["mlops", "machine learning", "data science"]
+dependencies = [
+    "hydra-core>=1.3.2"
+]
 
 {% if cookiecutter.license != "Not open source" %}
 license = "{{ cookiecutter.license }}"
