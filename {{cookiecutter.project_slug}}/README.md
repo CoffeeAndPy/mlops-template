@@ -11,7 +11,10 @@
 
 ```
 {{cookiecutter.project_slug}}/
+    ├── .env.example              # example environment variables
+    ├── .gitignore                # git ignore rules    
     ├── Dockerfile                # multi-stage build
+    ├── docker-compose.yml        # local development stack with hot-reload
     └── README.md                 # project documentation
 ```
 

@@ -37,5 +37,9 @@ And it will generate the `housing-price-predictor/` folder with everything confi
 
 | File | Purpose |
 |---|---|
+| `.env.example` | Example environment variables |
+| `.gitignore` | Git ignore rules |
+| `Dockerfile` | Multi-stage build (builder + runtime) |
+| `docker-compose.yml` | Local development stack with hot-reload |
 | `README.md` | Project documentation |
 
