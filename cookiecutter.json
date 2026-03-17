@@ -1,0 +1,12 @@
+{
+  "_comment": "Cookiecutter te preguntará estas variables en orden al ejecutar el comando.",
+  "project_name": "My MLOps Project",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}",
+  "project_description": "A machine learning project with MLOps best practices.",
+  "author_name": "Your Name",
+  "github_username": "your-github-username",
+  "python_version": "3.11",
+  "mlflow_port": "5000",
+  "api_port": "8000",
+  "open_source_license": ["MIT", "Apache-2.0", "None"]
+}
