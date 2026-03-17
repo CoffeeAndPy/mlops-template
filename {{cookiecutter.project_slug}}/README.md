@@ -11,6 +11,7 @@
 
 ```
 {{cookiecutter.project_slug}}/
+    ├── Dockerfile                # multi-stage build
     └── README.md                 # project documentation
 ```
 
