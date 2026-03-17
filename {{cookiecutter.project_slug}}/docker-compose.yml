@@ -1,0 +1,39 @@
+# docker-compose.yml — Development environment
+#
+# Usage: docker compose up --build
+#
+
+
+services:
+
+  # MLflow Tracking Server
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: {{cookiecutter.project_slug}}-mlflow
+    ports:
+      - "{{cookiecutter.mlflow_port}}:{{cookiecutter.mlflow_port}}"
+    volumes:
+      - mlflow_data:/mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port {{cookiecutter.mlflow_port}}
+      --backend-store-uri /mlflow/mlruns
+      --default-artifact-root /mlflow/artifacts
+    environment:
+      - MLFLOW_ALLOW_HOSTS=*
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{{cookiecutter.mlflow_port}}')"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - mlops-net
+
+volumes:
+  mlflow_data:
+
+networks:
+  mlops-net:
+    driver: bridge
