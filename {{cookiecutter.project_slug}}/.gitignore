@@ -1,0 +1,60 @@
+# Python
+
+___pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.python_cache/
+.coverage
+coverage.xml
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+
+# Virtual environment
+.env
+.vevn/
+venv/
+env/
+
+# Data and models
+# Data and models are versioned with DVC, no need to track them with git
+# Git isn`t designed to handle large files, and they can bloat the repository
+data/
+model/
+*.npy
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+*.omnx
+
+# MLflow
+# MLFlow experiment tracking creates a lot of files that are not relevant for version control.
+# In production, MLflow should be configured to use an external backend (e.g. S3) instead of local files.
+mlruns/
+mlartifacts/
+
+# Jupyter notebooks
+# The checkpoint files created by Jupyter are not relevant for version control, and can be ignored.
+.ipynb_checkpoints/
+# The output of notebooks can go to Git if they are lightweight, but if they are heavy (e.g. with large plots or dataframes) it is better to ignore them.
+# If contain sensitive information, they should be ignored as well. Added .ipynb files to .gitignore, but it is up to the user to decide if they want to track them or not.
+
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+# Docker volumes should not be in the repository
+docker-volumes/
