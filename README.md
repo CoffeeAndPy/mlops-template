@@ -31,7 +31,7 @@ Select open_source_license:
 3 - None
 ```
 
-And it will generate the `housing-price-predictor/` folder with everything configured.
+And it will generate the project folder with everything set up.
 
 ## What it includes
 
@@ -41,5 +41,6 @@ And it will generate the `housing-price-predictor/` folder with everything confi
 | `.gitignore` | Git ignore rules |
 | `Dockerfile` | Multi-stage build (builder + runtime) |
 | `docker-compose.yml` | Local development stack with hot-reload |
+| `Makefile` | Operation interface (`make help`) |
 | `README.md` | Project documentation |
 
