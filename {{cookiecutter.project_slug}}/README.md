@@ -20,6 +20,8 @@
     ├── Dockerfile                  # multi-stage build
     ├── docker-compose.yml          # local development stack with hot-reload
     ├── Makefile                    # operation interface (make help)
-    └── README.md                   # project documentation
+    ├── README.md                   # project documentation
+    └── requirements.txt             # project dependencies
+
 ```
 
