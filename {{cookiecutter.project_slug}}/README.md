@@ -11,11 +11,15 @@
 
 ```
 {{cookiecutter.project_slug}}/
-    ├── .env.example              # example environment variables
-    ├── .gitignore                # git ignore rules    
-    ├── Dockerfile                # multi-stage build
-    ├── docker-compose.yml        # local development stack with hot-reload
-    ├── Makefile                   # operation interface (make help)
-    └── README.md                 # project documentation
+    ├── .github/                    # GitHub Actions workflows
+    │   ├── workflows/
+    │   │   ├── ci.yml              # Lint + tests + build on each PR
+    │   │   └── cd.yml              # Train + publish + deploy
+    ├── .env.example                # example environment variables
+    ├── .gitignore                  # git ignore rules    
+    ├── Dockerfile                  # multi-stage build
+    ├── docker-compose.yml          # local development stack with hot-reload
+    ├── Makefile                    # operation interface (make help)
+    └── README.md                   # project documentation
 ```
 
