@@ -1,0 +1,111 @@
+# CI
+#
+# This workflow runs on every push and pull request to main, ensuring that code is always linted and tested before merging.
+#
+# Jobs:
+#   1. lint   → checks code style with ruff
+#   2. test   → runs unit tests with pytest and collects coverage
+#   3. build  → builds the Docker image to verify it compiles
+#
+# If any job fails, the PR cannot be merged.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Cancels any in-progress runs for the same PR when a new commit is pushed.
+# Saves CI minutes by not running obsolete checks.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+# Job 1: Lint
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "{{cookiecutter.python_version}}"
+          cache: "pip"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run lint
+        run: ruff check src/ api/ tests/
+        # TODO: adjust paths if your project has a different structure
+
+# Job 2: Tests
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    # needs: this job only runs if lint passes.
+    # Saves time: don't run tests if the code doesn't even pass lint.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "{{cookiecutter.python_version}}"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest-cov
+
+      - name: Run tests
+        run: |
+          pytest tests/ -v \
+            --cov=src/ \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=80
+          # --cov-fail-under=80: fails if coverage is under 80%
+          # Adjust the threshold as needed for your project.
+          # TODO: add here especific test commands if your project has a different testing framework.
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        # if: always() → uploads the report even if tests fail (useful for debugging)
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+# Job 3: Build Docker image
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    # needs: only runs if tests pass, ensuring we only build images from working code.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker Buldx
+        uses: docker/setup-buildx-action@v3
+        # Buildx is a Docker CLI plugin that extends the docker command with the full support of the features provided by Moby BuildKit builder toolkit. 
+        # It allows us to build multi-platform images and leverage caching for faster builds.
+
+      - name: Build imagen
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          # push: false → only checks that the image builds, doesn't publish it.
+          # Publishing is the responsibility of the CD, not the CI.
+          tags: {{cookiecutter.project_slug}}:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # cache-from/to: uses GitHub Actions cache to speed up subsequent builds.
+          # with out caching, every build would have to start from scratch, which can be very slow as the project grows.
+          # TODO: if you dockerfile have additional stages, adde them here to verify they also build correctly.

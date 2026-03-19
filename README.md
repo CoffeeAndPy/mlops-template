@@ -37,6 +37,7 @@ And it will generate the project folder with everything set up.
 
 | File | Purpose |
 |---|---|
+| `.github/workflows/` | GitHub Actions workflows for CI/CD |
 | `.env.example` | Example environment variables |
 | `.gitignore` | Git ignore rules |
 | `Dockerfile` | Multi-stage build (builder + runtime) |
