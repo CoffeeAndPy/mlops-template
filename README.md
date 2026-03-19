@@ -38,6 +38,10 @@ And it will generate the project folder with everything set up.
 | File | Purpose |
 |---|---|
 | `.github/workflows/` | GitHub Actions workflows for CI/CD |
+| `api/` | FastAPI application code |
+| `notebooks/` | Jupyter notebooks for EDA and prototyping |
+| `src/` | Source code for training, evaluation, and utilities |
+| `tests/` | Unit and integration tests |
 | `.env.example` | Example environment variables |
 | `.gitignore` | Git ignore rules |
 | `Dockerfile` | Multi-stage build (builder + runtime) |
