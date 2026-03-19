@@ -1,0 +1,27 @@
+# Params
+#
+# Hipeparams and other configuration variables for {{cookiecutter.project_name}} proyect.
+#
+# This file is versioned in Git together with the code.
+# Each experiment is traced: you know exactly which parameters
+# produced which model in which commit.
+#
+# DVC reads them with: dvc params diff
+# MLflow automatically logs them in each run.
+# GitHub Actions can overwrite them with repository variables.
+
+# Data
+data:
+  test_size: 0.2        # fraction of the dataset for evaluation
+  random_seed: 42       # seed for reproducibility
+
+# Model
+# TODO: replace with the specific hyperparameters of your model
+model:
+  learning_rate: 0.01
+  epochs: 1000
+
+# Training
+training:
+  experiment_name: "{{cookiecutter.project_slug}}"
+  run_name: "baseline"
