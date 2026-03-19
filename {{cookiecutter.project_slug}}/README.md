@@ -15,6 +15,8 @@
     │   ├── workflows/
     │   │   ├── ci.yml              # Lint + tests + build on each PR
     │   │   └── cd.yml              # Train + publish + deploy
+    ├── notebooks/                   # Jupyter notebooks for EDA and prototyping
+    │   └── 01_exploration.ipynb     # Initial exploration notebook
     ├── .env.example                # example environment variables
     ├── .gitignore                  # git ignore rules    
     ├── Dockerfile                  # multi-stage build
