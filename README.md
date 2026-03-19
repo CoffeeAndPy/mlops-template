@@ -43,6 +43,7 @@ And it will generate the project folder with everything set up.
 | `Dockerfile` | Multi-stage build (builder + runtime) |
 | `docker-compose.yml` | Local development stack with hot-reload |
 | `Makefile` | Operation interface (`make help`) |
+| `params.yaml` | Versioned hyperparameters |
 | `README.md` | Project documentation |
 | `requirements.txt` | Project dependencies |
 
