@@ -20,7 +20,7 @@ on:
 # Cancels any in-progress runs for the same PR when a new commit is pushed.
 # Saves CI minutes by not running obsolete checks.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: {% raw %}ci-${{ github.ref }}{% endraw %}
   cancel-in-progress: true
 
 jobs:
@@ -103,7 +103,7 @@ jobs:
           push: false
           # push: false → only checks that the image builds, doesn't publish it.
           # Publishing is the responsibility of the CD, not the CI.
-          tags: {{cookiecutter.project_slug}}:ci-${{ github.sha }}
+          tags: {{cookiecutter.project_slug}}:ci-${% raw %}${{ github.sha }}{% endraw %}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           # cache-from/to: uses GitHub Actions cache to speed up subsequent builds.

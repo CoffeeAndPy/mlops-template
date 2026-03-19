@@ -44,4 +44,5 @@ And it will generate the project folder with everything set up.
 | `docker-compose.yml` | Local development stack with hot-reload |
 | `Makefile` | Operation interface (`make help`) |
 | `README.md` | Project documentation |
+| `requirements.txt` | Project dependencies |
 
