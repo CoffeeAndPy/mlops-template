@@ -1,0 +1,132 @@
+# docker-compose.yml — Development environment
+#
+# Usage: docker compose up --build
+#
+
+
+services:
+
+  # MLflow Tracking Server
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: {{cookiecutter.project_slug}}-mlflow
+    restart: unless-stopped
+    ports:
+      - "{{cookiecutter.mlflow_port}}:{{cookiecutter.mlflow_port}}"
+    volumes:
+      - mlflow_data:/mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port {{cookiecutter.mlflow_port}}
+      --backend-store-uri /mlflow/mlruns
+      --default-artifact-root /mlflow/artifacts
+    environment:
+      - MLFLOW_ALLOW_HOSTS=*
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{{cookiecutter.mlflow_port}}')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits: 
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 180M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - backend
+
+# Trainer
+trainer:
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: runtime
+  image: {{cookiecutter.project_slug}}:latest
+  container_name: {{cookiecutter.project_slug}}-trainer
+  restart: "no"
+  depends_on:
+    mlflow:
+      condition: service_healthy
+  volumes:
+    - model_data:/app/model
+    - ./data:/app/data
+  environment:
+    - MLFLOW_TRACKING_URI=http://mlflow:{{cookiecutter.mlflow_port}}
+    - MODEL_OUTPUT_DIR=/app/model
+  command: python src/train.py
+  dewploy:
+    resources:
+      limits:
+        cpus: "1.0"
+        memory: 1G
+      reservations:
+        cpus: "0.25"
+        memory: 256M
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+  networks:
+    - backend
+
+# API
+api:
+  image: {{cookiecutter.project_slug}}:latest
+  container_name: {{cookiecutter.project_slug}}-api
+  restart: unless-stopped
+  depends_on:
+    trainer:
+      condition: service_completed_successfully
+  ports:
+    - "{{cookiecutter.api_port}}:{{cookiecutter.api_port}}"
+  volumes:
+    - model_data:/app/model
+  environment:
+    - MLFLOW_TRACKING_URI=http://mlflow:{{cookiecutter.mlflow_port}}
+  command: uvicorn api.main:app --host 0.0.0 --port {{cookiecutter.api_port}} --workers 2
+  healthcheck:
+    test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{{cookiecutter.api_port}}/health')"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 30s
+  deploy:
+    resources:
+      limits:
+        cpus: "0.5"
+        memory: 256M
+      reservations:
+        cpus: "0.1"
+        memory: 64M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - backend
+      - frontend
+
+# Networks
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+# Volumes
+volumes:
+  mlflow_data:
+  model_data:
+
