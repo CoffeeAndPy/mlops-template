@@ -32,6 +32,7 @@
     ├── .gitignore                      # git ignore rules    
     ├── Dockerfile                      # multi-stage build
     ├── docker-compose.yml              # local development stack with hot-reload
+    ├── docker-compose.prod.yml         # production stack with observability
     ├── Makefile                        # operation interface (make help)
     ├── params.yaml                     # versioned hyperparameters
     ├── README.md                       # project documentation
