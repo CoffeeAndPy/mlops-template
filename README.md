@@ -46,6 +46,7 @@ And it will generate the project folder with everything set up.
 | `.gitignore` | Git ignore rules |
 | `Dockerfile` | Multi-stage build (builder + runtime) |
 | `docker-compose.yml` | Local development stack with hot-reload |
+| `docker-compose.prod.yml` | Production stack with observability |
 | `Makefile` | Operation interface (`make help`) |
 | `params.yaml` | Versioned hyperparameters |
 | `README.md` | Project documentation |

@@ -137,15 +137,15 @@ jobs:
             # Commons deployment options:
             #
             # A) Docker Compose on remote server with SSH:
-            #    ssh user@server "docker compose pull && \
-            #                     docker compose up -d"
+            #    ssh user@server "docker compose -f docker-compose.prod.yml pull && \
+            #                     docker compose -f docker-compose.prod.yml up -d"
             #
             # B) Kubernetes:
             #    {% raw %}kubectl set image deployment/api api=ghcr.io/${{ github.repository }}:sha-${{ github.sha }}{% endraw %}
             #
             # C) Local:
-            #   docker compose pull            
-            #   docker compose up -d --no-build
+            #   docker compose -f docker-compose.prod.yml pull            
+            #   docker compose -f docker-compose.prod.yml up -d --no-build
 
         - name: Post-deployment test
           run: |
