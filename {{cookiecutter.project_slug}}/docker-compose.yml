@@ -31,8 +31,30 @@ services:
     networks:
       - mlops-net
 
+  api:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: {{cookiecutter.project_slug}}-api
+      depends_on:
+        mlflow:
+          condition: service_healthy
+      ports:
+        - "{{cookiecutter.api_port}}:{{cookiecutter.api_port}}"
+      volumes:
+        - model_data:/app/model
+        # Montar código fuente para desarrollo sin rebuild
+        - ./src:/app/src
+        - ./api:/app/api
+      environment:
+        - MLFLOW_TRACKING_URI=http://mlflow:{{cookiecutter.mlflow_port}}
+      command: uvicorn api.main:app --host 0.0.0.0 --port {{cookiecutter.api_port}} --reload
+      networks:
+        - mlops-net
+
 volumes:
   mlflow_data:
+  model_data:
 
 networks:
   mlops-net:
