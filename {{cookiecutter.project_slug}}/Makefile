@@ -9,7 +9,7 @@
 
 # .PHONY tells make that these targets are not files.
 # Without this, if a file named "test" existed, make would not execute the target
-.PHONY: help dev down down-clean status health clean
+.PHONY: help dev prod down down-clean test lint lint-fix status health clean
 
 # ── Help ──────────────────────────────────────────────────────────────────────
 # This target is the first in the file → it runs with `make` without arguments.
@@ -26,16 +26,34 @@ help: ## Shows available commands
 dev: ## Starts the development stack with hot-reload
 	docker compose up --build
 
+prod: ## Starts the full production stack in background
+	docker compose -f docker-compose.prod.yml up -d
+	@echo ""
+	@echo "  Production stack started:"
+	@echo "  API        → http://localhost:{{cookiecutter.api_port}}/docs"
+	@echo "  MLflow     → http://localhost:{{cookiecutter.mlflow_port}}"
+	@echo ""
+
 down: ## Stops all services (data is preserved)
-	docker compose down
+	docker compose -f docker-compose.prod.yml down
 
 down-clean: ## Stops all services and removes volumes (total reset)
-	docker compose down -v
+	docker compose -f docker-compose.prod.yml down -v
 	@echo "  All volumes removed (MLflow, models)"
+
+# Code quality
+test: ## Unit testing
+	pytest tests/ -v --cov=src --cov-report=term-missing
+
+lint: ## 
+	ruff check src/ api/ tests/
+
+lint-fix: ##
+	ruff check --fix src/ api/ tests/
 
 # Operations
 status: ## Check status of services
-	docker compose ps
+	docker compose -f docker-compose.prod.yml ps
 
 health: ## Checks if API is healthy
 	@curl -s http://localhost:{{cookiecutter.api_port}}/health \
@@ -46,4 +64,4 @@ clean: ## Removes python cache files and temp files
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 	rm -rf .pytest_cache .coverage coverage.xml .ruff_cache
-	@echo "  Limpieza completada"
+	@echo " Cleaned "
