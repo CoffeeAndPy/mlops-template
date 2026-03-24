@@ -79,12 +79,32 @@ def health():
 @app.get("/info")
 def info():
     """Project information endpoint."""
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
     return {
         "project": "{{cookiecutter.project_name}}",
-        "version": "0.1.0"
+        "version": "0.1.0",
+        "model": model
     }
 
-@app.post("/predict")
-def predict(body: dict):
-    # accept any JSON body.
-    return {"prediction": round(random.uniform(0, 1), 4)}
+@app.post("/predict", response_model=PredictResponse)
+def predict(body: PredictRequest):
+    """
+    Make a prediction.
+
+    FastAPI will automatically validate body.value is a float.
+    If it is not, it will return a 422 Unprocessable Entity error with details about the validation failure.
+    """
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+    
+    # placeholder - replace with real prediction code.
+    prediction = round(random.uniform(0, 1), 4)
+
+    logger.info(f"Prediction: input={body.value}, output={prediction}")
+
+    return PredictResponse(
+        prediction=prediction, 
+        model_version="0.1.0"
+        )
+  
